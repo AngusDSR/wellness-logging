@@ -1,0 +1,7 @@
+FROM WORK WIP/
+dailysummary-*.csv
+bearable-*.csv
+*.pyc
+venv/
+*.log
+.vscode/
