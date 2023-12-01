@@ -13,7 +13,8 @@ def invalid_input():
     clear()
     print("Invalid input. Try again.\n")
 
-# DEBUG
+# TO DO:
+# Add option corresponding actions as arguements
 # Add option to return to previous menu
 # Add shrinking/selection functionality
 # Add option (via arguement) to return number or value
@@ -38,7 +39,7 @@ def asker(prompt, options, shrinking=False):
             clear()
             invalid_input()
 
-def about_inputs(df, high_variance_intakes):
+def about_intakes(df, high_variance_intakes):
     while True:
         user_input = input("Select an option:\n\n1. Analyse key nutritional intakes\n2. Analyse intakes with a high degree of variation\n3. See the list of highly variable intakes\n4. See the list of key inputs\n5. Exit\n\nEnter the corresponding number: ")
         clear()

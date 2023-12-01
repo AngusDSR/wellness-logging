@@ -1,11 +1,17 @@
 import lib.utils.input_handler as ask
 import lib.controllers.main_controller as controller
 
-menu_selection = ask.asker('What do you want to do?:\n', ['Nutrition analysis', 'Factor analysis', 'Reports', 'Settings', 'View data', 'Exit'])
+def nut_analysis_menu():
+    nut_analysis_selection = ask.asker('What do you want to do?:\n', ['Intakes vs outcomes', 'Exit'])
+    if nut_analysis_selection == 'Intakes vs outcomes':
+        controller.nutrition_analysis()
+    else:
+        ask.stop()
+    None
 
-# Change to case statement
+menu_selection = ask.asker('What do you want to do?:\n', ['Nutrition analysis', 'Factor analysis', 'Reports', 'Settings', 'View data', 'Exit'])
 if menu_selection == 'Nutrition analysis':
-    controller.nutrition_analysis()
+    nut_analysis_menu()
 # elif menu_selection == 'Factor analysis':
 #     controller.factor_analysis()
 # elif menu_selection == 'Reports':

@@ -4,6 +4,8 @@ import glob
 
 start_date = '2023-06-01'
 end_date = datetime.today().strftime('%Y-%m-%d')
+correlation_threshold = 0.4
+sets = {}
 
 source = {
     'bearable': pd.read_csv(glob.glob('data/bearable-export-*.csv')[0]),
@@ -15,10 +17,8 @@ source = {
     # etc.
 }
 
-sets = {}
-
-correlation_threshold = 0.4
-
+# TO DO: Add more categories
+# This needs to be updated to reflect the categories in the bearable data
 wellbeing_outcomes = [
     'Productivity',
     'Calmness 😌',

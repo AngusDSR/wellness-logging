@@ -21,7 +21,9 @@ Nutrition tracker to do list:
 - Add a stacked column chart with different outcomes stacked per column: https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_stacked.html
 - add curves to lines
 - count gratitudes
+- Add more categories (DATA FILE)
 - bring in Trello data
+- Search for 'DEBUG' to find outstanding bits
 <!-- - bring in Weather data: https://meteostat.net/en/place/gb/new-cross?s=03779&t=2023-11-01/2023-11-30 -->
 - bring in Spotify data: https://towardsdatascience.com/get-your-spotify-streaming-history-with-python-d5a208bbcbd3
 

@@ -5,6 +5,7 @@ import lib.data_processing.bearable_data as bear
 def nutrition_analysis():
     selected_outcomes = ask.about_outcomes()
     outcomes_data = bear.filter_outcomes(selected_outcomes)
+    selected_intakes = ask.about_intakes()
     # get clensed bear data
     # get cleansed nutrition data
     # pass to combiner
