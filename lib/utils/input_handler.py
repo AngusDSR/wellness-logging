@@ -66,6 +66,7 @@ def about_inputs(df, high_variance_intakes):
             continue
 
 def about_outcomes():
+    clear()
     selected_outcomes = []
     while len(selected_outcomes) < 3:
         if len(selected_outcomes) > 0:

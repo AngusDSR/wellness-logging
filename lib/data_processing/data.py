@@ -54,7 +54,6 @@ key_intakes = [
     'Phenylalanine',
 ]
 
-# create pd data table, with a columns for day of the week
 date_table = pd.date_range(start=start_date, end=end_date, freq='D')
-date_table = pd.DataFrame(date_table, columns=['date'], index=date_table)
-input(date_table)
+date_table = pd.DataFrame(date_table, columns=['date'])
+date_table['day'] = date_table['date'].dt.strftime('%a')
