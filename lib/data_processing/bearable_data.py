@@ -1,9 +1,9 @@
 import pandas as pd
-import lib.utils.input_handler as ask
-import lib.data_processing.data as data
+import lib.data_processing.data_utils as data
+import lib.data_processing.data_processing as data_process
 
 # Load data, cleans, format and pass to data.py
-df = data.source['bearable']
+df = data_process.import_from_csv('bearable')
 df['date'] = df['date formatted']
 df['date'] = pd.to_datetime(df['date'])
 df.set_index('date', inplace=True)
@@ -17,10 +17,14 @@ df['category'] = df['category'].apply(lambda value: value.split()[0].strip())
 data.wellbeing_outcomes = [value.split()[0].strip() for value in data.wellbeing_outcomes]
 data.sets['bearable'] = df
 
-def filter_outcomes(selection):
+# Only applies to bearable outcomes data - otherwise move to data_processing.py
+def filter_outcomes(user_seleced_outcomes):
     df = data.sets['bearable'].copy()
-    df = df[df['category'].isin(selection)]
+    df = df[df['category'].isin(user_seleced_outcomes)]
     df['value'] = pd.to_numeric(df['value'], errors='coerce')
-    df = df.groupby(['date', 'category']).mean()
-    df = df.pivot_table(index='date', columns='category', values='value', aggfunc='sum', fill_value=0)
+
+    # TO DO: This should be optional/temporary until we can get the data in a better format
+    df = data_process.average_rows_by_day(df, 'category')
+    #############################################
+    df = data_process.pivot_table_on_day(df, 'category')
     return df

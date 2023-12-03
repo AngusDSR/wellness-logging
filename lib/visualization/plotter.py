@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from lib.data_processing.data_combiner import df, outcome_count
+from lib.data_processing.correlation_calculator import df, outcome_count
 import lib.utils.input_handler as ask
 plt.switch_backend('TkAgg')
 
@@ -8,15 +8,13 @@ outcomes = df[df.columns[:outcome_count]]
 nutrients = df[df.columns[outcome_count:]]
 nutrient_count = len(nutrients.columns)
 
-print(nutrient_count)
-
 # Plot 2-y-axes chart: excluding any blank rows (from averaging)
 blank_rows_from_averaging = nutrients[nutrients.isnull().any(axis=1)].shape[0]
 
 # DEBUG
 # DEBUG
-chart_type = ask.asker('Put outcomes as columns or as lines?:', ['columns', 'lines'])
-if chart_type == 'columns':
+chart_type = ask.for_single_input(['columns', 'lines'], 'Put outcomes as columns or as lines?:')
+if chart_type == '0':
     viz_columns = outcomes.columns
     viz_lines = nutrients[blank_rows_from_averaging:]
 # DEBUG

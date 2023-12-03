@@ -4,16 +4,20 @@ import glob
 
 start_date = '2023-06-01'
 end_date = datetime.today().strftime('%Y-%m-%d')
+
 correlation_threshold = 0.4
+outcomes_count = None
+averaged_periods = None # To do: this might need to be multiple valies per dataset
 sets = {}
 
 source = {
-    'bearable': pd.read_csv(glob.glob('data/bearable-export-*.csv')[0]),
-    'nutrition': pd.read_csv('data/dailysummary.csv'),
+    'bearable': glob.glob('data/bearable-export-*.csv')[0],
+    'nutrition': 'data/dailysummary.csv',
     'weather': None,
     # 'trello': None,
     # 'spotify': None,
-    # fitbit: None,
+    # 'fitbit': None,
+    # 'codetime': None,
     # etc.
 }
 
@@ -33,7 +37,7 @@ wellbeing_outcomes = [
     'Sleep quality'
 ]
 
-key_intakes = [
+key_nutrition_intakes = [
     'Protein',
     'Net Carbs',
     'Fiber',

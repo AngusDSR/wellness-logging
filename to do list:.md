@@ -24,30 +24,7 @@ Nutrition tracker to do list:
 - Add more categories (DATA FILE)
 - bring in Trello data
 - Search for 'DEBUG' to find outstanding bits
+- turn split nutrition_data.py into a nutrition data loader and a general data processer for other exports
 <!-- - bring in Weather data: https://meteostat.net/en/place/gb/new-cross?s=03779&t=2023-11-01/2023-11-30 -->
 - bring in Spotify data: https://towardsdatascience.com/get-your-spotify-streaming-history-with-python-d5a208bbcbd3
-
-<!-- project_folder/
-│
-├── lib/
-│   ├── __init__.py
-│   ├── data_processing/
-│   │   ├── __init__.py
-│   │   └── data_combiner.py
-│   │   └── data.py
-│   │   └── bearable_data.py
-│   │   └── nutrition_data.py
-│   │
-│   ├── utils/
-│   |   ├── __init__.py
-│   |   └── input_handler.py
-│   |
-│   └── visualization/
-│       ├── __init__.py
-│       └── plotter.py
-│
-├── data/
-|   ├── bearable-export-01-12-2023.csv
-|   └── dailysummary.csv
-|
-└── interface.py -->
+- think properly about data_utils / data_processing contents
