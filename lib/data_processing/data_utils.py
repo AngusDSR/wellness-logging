@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-import glob
+import glob, re
 
 start_date = '2023-06-01'
 end_date = datetime.today().strftime('%Y-%m-%d')
@@ -58,6 +58,10 @@ key_nutrition_intakes = [
     'Phenylalanine',
 ]
 
-date_table = pd.date_range(start=start_date, end=end_date, freq='D')
-date_table = pd.DataFrame(date_table, columns=['date'])
-date_table['day'] = date_table['date'].dt.strftime('%a')
+# To do: remove
+# date_table = pd.date_range(start=start_date, end=end_date, freq='D')
+# date_table = pd.DataFrame(date_table, columns=['date'])
+# date_table['day'] = date_table['date'].dt.strftime('%a')
+
+def remove_paranthesised_column_text(columns):
+    return [re.sub(r'\(.*\)', '', col).strip() for col in columns.copy()]

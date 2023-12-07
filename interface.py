@@ -9,10 +9,12 @@ def nut_analysis_menu():
         ask.stop()
     None
 
-menu_selection = ask.for_single_input(['Nutrition analysis', 'Factor analysis', 'Reports', 'Settings', 'View data', 'Exit'])
+menu_selection = ask.for_single_input(['Test', 'Nutrition analysis', 'Factor analysis', 'Reports', 'Settings', 'View data', 'Exit'])
 if menu_selection == 0:
+    # nut_analysis_menu()
+    controller.test()
+elif menu_selection == 1:
     nut_analysis_menu()
-# elif menu_selection == 1:
 #     controller.factor_analysis()
 # elif menu_selection == 2:
 #     controller.reports()

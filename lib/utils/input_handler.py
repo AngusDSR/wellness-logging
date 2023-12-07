@@ -1,5 +1,4 @@
-import os
-import sys
+import os, sys, re
 import numpy as np
 import inflect
 import lib.data_processing.data_utils as data
@@ -18,7 +17,6 @@ def invalid_input(message="Invalid input. Try again."):
     return f"{lines}\n⚠️ {message}\n{lines}\n"
 
 # TO DO:
-# Add option corresponding actions as arguements
 # Add option to return to previous menu
 def for_menu_selection(prompt='\nEnter the corresponding number: ', preceeding_message=''):
     return input(f"\n{preceeding_message}{prompt}") if len(preceeding_message) > 0 else input(prompt)
@@ -27,18 +25,17 @@ def for_number_in_range(min_value, max_value, value_type='number'):
     clear()
     while True:
         user_input = input(f'Enter {p.a(value_type)} between {min_value} and {max_value}: ')
-        try:
-            numeric_value = int(user_input)
-            if isinstance(min_value + max_value, float):
-                numeric_value = float(user_input)
+        if not re.search(r'\d', user_input):
+            print(invalid_input())
+            continue
 
-            if min_value <= numeric_value <= max_value:
-                return numeric_value
-            else:
-                invalid_input()
-        except ValueError:
-            invalid_input()
-# To do: second argument as actions
+        numeric_value = float(user_input) if isinstance(min_value + max_value, float) else int(user_input)
+
+        if min_value <= numeric_value <= max_value:
+            return numeric_value
+        else:
+            print(invalid_input())
+
 def for_single_input(options, prompt="Select an option:\n" ):
     error = ''
     clear()
@@ -54,7 +51,6 @@ def for_single_input(options, prompt="Select an option:\n" ):
 
         user_input = int(user_input) - 1
         if 0 <= user_input < len(options):
-            # To do: add actions based on matching indices
             return user_input
         else:
             clear()
@@ -121,50 +117,6 @@ def for_multiple_inputs(options, choice_limit, item_name='option', min_selection
     selection_array = np.array(selection_list)
     return selection_array
 
-# To do: remove
-# def about_outcomes():
-#     clear()
-#     selected_outcomes = []
-#     while len(selected_outcomes) < 3:
-#         if len(selected_outcomes) > 0:
-#             clear()
-#             None
-
-#         print("Select up to 3 outcomes from the 'category' column. When you are finished, enter '0'.\n")
-#         print("Select up to 3 outcomes from the 'category' column. When you are finished, enter '0'.\n")
-#         unique_values = data.wellbeing_outcomes
-#         for i, value in enumerate(unique_values):
-#             print(f"{i+1}. {value}")
-
-#         print("\n0. STOP\n\nSelected outcomes:", ", ".join(map(str, np.array(selected_outcomes)))) if selected_outcomes != [] else None
-
-#         user_input = for_menu_selection()
-
-#         if not user_input.isdigit():
-#             invalid_input()
-#             continue
-
-#         user_input = int(user_input) - 1
-
-#         if user_input == -1 and selected_outcomes:
-#             break
-#         elif user_input == -1 and not selected_outcomes:
-#             clear()
-#             print("*** Select at least one outcome ***")
-#             continue
-
-#         if 0 <= user_input < len(unique_values):
-#             selected_value = unique_values.pop(user_input)
-#             selected_outcomes.append(selected_value)
-#         else:
-#             clear()
-#             invalid_input()
-
-#     selected_outcomes_array = np.array(selected_outcomes)
-#     clear()
-#     print("Selected outcomes:", ", ".join(map(str, np.array(selected_outcomes))),"\n")
-#     return selected_outcomes_array
-
 # To do: replace with range input
 def about_averaging():
     while True:
@@ -174,7 +126,7 @@ def about_averaging():
             stop()
 
         if user_input == "2":
-            return False
+            return 1
         elif user_input == "1":
             while True:
                 user_input = input("Enter a number of days greater than 1: ")
@@ -191,20 +143,6 @@ def about_averaging():
         else:
             invalid_input()
             continue
-
-def get_numeric_input(prompt, min_value, max_value):
-    while True:
-        user_input = input(prompt)
-
-        try:
-            numeric_value = float(user_input)
-
-            if min_value <= numeric_value <= max_value:
-                return numeric_value
-            else:
-                invalid_input()
-        except ValueError:
-            invalid_input()
 
 # To do: replace and remove
 def about_correlation():

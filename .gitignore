@@ -1,4 +1,5 @@
 FROM WORK WIP/
+/data/Pending
 dailysummary-*.csv
 bearable-*.csv
 *.pyc
