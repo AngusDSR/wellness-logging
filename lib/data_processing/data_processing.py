@@ -9,7 +9,7 @@ def import_from_csv(data_set_name):
 
 def combine_outcomes_variables(outcome_data, variables_data):
     data.outcomes_count = outcome_data.shape[1]
-    return pd.merge(outcome_data, variables_data, on='date', how='inner')
+    return pd.merge(outcome_data.copy(), variables_data.copy(), on='date', how='inner')
 
 def average_over_days(values, period_to_average):
     df = values.copy()

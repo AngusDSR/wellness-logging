@@ -4,6 +4,7 @@ import lib.data_processing.data_utils as data
 import lib.data_processing.data_processing as data_process
 from lib.data_processing.data_utils import correlation_threshold as def_corr_threshold
 import lib.data_processing.correlation_calculator as correlate
+import lib.visualization.plotter as plotter
 
 def nutrition_analysis():
     data_process.prepare_nutrition_data()
@@ -15,24 +16,19 @@ def nutrition_analysis():
     selected_intakes = data_process.average_over_days(selected_intakes, average_over_days)
     intakes_data = data_process.normalise_values(selected_intakes)
     correlation_method = ask.for_single_input([f'Use the default correlation threshold ({def_corr_threshold})', 'Choose a custom correlation threshold', 'See the top x correlated inputs'])
-    if correlation_method == 0:
+    if correlation_method == 2:
+        correlation_top_n = ask.for_number_in_range(1, 15, "number of top correlated inputs to select")
+        print("Top", correlation_threshold, "correlations selected")
+        filtered_correlations_table = correlate.using_top_n(outcomes_data, intakes_data, correlation_top_n)
+    elif correlation_method == 0:
         correlation_threshold = def_corr_threshold
+        # could this not be repeated?
+        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, correlation_threshold)
     elif correlation_method == 1:
         correlation_threshold = ask.for_number_in_range(0.2, 1, "threshold")
         print("Threshold set to:", correlation_threshold, ".")
-    elif correlation_method == 2:
-        correlation_threshold = ask.for_number_in_range(1, 15, "number of top correlated inputs to select")
-        print("Top", correlation_threshold, "correlations selected")
+        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, correlation_threshold)
 
-def test():
-    data_process.prepare_nutrition_data()
-    outcomes_data = bear.filter_outcomes(['Mood', 'Energy'])
-    intakes_data = data_process.normalise_values(data.sets['nutrition'])
-
-    # Test from here:
-    # need to check that we can skip columns after averaging: which leaves first x cols blank
-    ######################
-    correlation_matrix = correlate.using_threshold(outcomes_data, intakes_data, def_corr_threshold, 2)
-
-    # To do: return correlation method based on response
+    plotter.line_column_chart(filtered_correlations_table, len(selected_outcomes))
+    plotter.visualise()
     ask.stop()
