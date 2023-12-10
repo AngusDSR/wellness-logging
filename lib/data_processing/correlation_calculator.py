@@ -8,22 +8,16 @@ def rename_negative_correlations_headers(correlations, table):
     table.rename(columns={col: col + ' (neg)' for col in neg_columns}, inplace=True)
     return table
 
-def using_threshold(outcomes_data, variables_data, correlation_threshold):
+def process_correlations(outcomes_data, variables_data, top_n=None, threshold=None):
     outcomes, variables = outcomes_data.copy(), variables_data.copy()
     outcome_count = len(outcomes.columns)
     df = data_process.combine_outcomes_variables(outcomes, variables)
     correlation_values = df.corr().iloc[0:outcome_count, outcome_count:].mean()
-    correlation_values = correlation_values[correlation_values.abs() > correlation_threshold]
-    df = df[correlation_values.index]
-    df = rename_negative_correlations_headers(correlation_values, df)
-    return df
-
-def using_top_n(outcomes_data, variables_data, top_n):
-    outcomes, variables = outcomes_data.copy(), variables_data.copy()
-    outcome_count = len(outcomes.columns)
+    if top_n is not None:
+        correlation_values = correlation_values.nlargest(top_n)
+    elif threshold is not None:
+        correlation_values = correlation_values[correlation_values.abs() > threshold]
+    variables = variables[correlation_values.index]
+    variables = rename_negative_correlations_headers(correlation_values, variables)
     df = data_process.combine_outcomes_variables(outcomes, variables)
-    correlation_values = df.corr().iloc[0:outcome_count, outcome_count:].mean()
-    correlation_values = correlation_values.nlargest(top_n)
-    df = df[correlation_values.index]
-    df = rename_negative_correlations_headers(correlation_values, df)
     return df

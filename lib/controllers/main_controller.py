@@ -17,17 +17,17 @@ def nutrition_analysis():
     intakes_data = data_process.normalise_values(selected_intakes)
     correlation_method = ask.for_single_input([f'Use the default correlation threshold ({def_corr_threshold})', 'Choose a custom correlation threshold', 'See the top x correlated inputs'])
     if correlation_method == 2:
-        correlation_top_n = ask.for_number_in_range(1, 15, "number of top correlated inputs to select")
-        print("Top", correlation_threshold, "correlations selected")
-        filtered_correlations_table = correlate.using_top_n(outcomes_data, intakes_data, correlation_top_n)
+        top_n = ask.for_number_in_range(1, 15, "number of top correlated inputs to select")
+        print("Top", top_n, "correlations selected")
+        filtered_correlations_table = correlate.process_correlations(outcomes_data, intakes_data, top_n)
     elif correlation_method == 0:
-        correlation_threshold = def_corr_threshold
+        threshold = def_corr_threshold
         # could this not be repeated?
-        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, correlation_threshold)
+        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, threshold)
     elif correlation_method == 1:
-        correlation_threshold = ask.for_number_in_range(0.2, 1, "threshold")
-        print("Threshold set to:", correlation_threshold, ".")
-        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, correlation_threshold)
+        threshold = ask.for_number_in_range(0.2, 1, "threshold")
+        print("Threshold set to:", threshold, ".")
+        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, threshold)
 
     plotter.line_column_chart(filtered_correlations_table, len(selected_outcomes))
     plotter.visualise()
@@ -35,12 +35,12 @@ def nutrition_analysis():
 
 def test():
     data_process.prepare_nutrition_data()
-    outcomes_data = bear.filter_outcomes(['Energy', 'Mood'])
+    outcomes_data = bear.filter_outcomes(['Energy'])
     intakes = data_process.average_over_days(data.sets['nutrition'], 2)
     intakes_data = data_process.normalise_values(intakes)
-    top_3_table = correlate.using_top_n(outcomes_data, intakes_data, 3)
-    deff_crr = correlate.using_threshold(outcomes_data, intakes_data, def_corr_threshold)
-    plotter.line_column_chart(top_3_table, 2)
-    plotter.line_column_chart(deff_crr, 2)
+    deff_crr = correlate.process_correlations(outcomes_data, intakes_data, threshold=0.5)
+    top_3_table = correlate.process_correlations(outcomes_data, intakes_data, 3)
+    plotter.line_column_chart(deff_crr, 1)
+    plotter.line_column_chart(top_3_table, 1)
     plotter.visualise()
     ask.stop()
