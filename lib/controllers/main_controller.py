@@ -33,4 +33,4 @@ def nutrition_analysis():
     plotter.visualise()
 
 def test():
-    data_process.prepare_coding_data(group_by_column='language')
+    data_process.prepare_weather_data()

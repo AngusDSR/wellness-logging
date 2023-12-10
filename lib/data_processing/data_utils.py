@@ -9,7 +9,7 @@ sets = {}
 source = {
     'bearable': glob.glob('data/bearable-export-*.csv')[0],
     'nutrition': 'data/dailysummary.csv',
-    'weather': None,
+    'weather': 'data/weather.csv',
     'codetime': glob.glob('data/records-*.csv')[0],
     # 'trello': None,
     # 'spotify': None,

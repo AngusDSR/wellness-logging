@@ -75,3 +75,8 @@ def prepare_coding_data(group_by_column='date'):
     df = df.drop(columns=drop_columns)
     df = df.groupby(['date', group_by_column]).sum().reset_index()
     data.sets['coding'] = df
+
+def prepare_weather_data():
+    df = import_from_csv('weather')
+    df = df.dropna()
+    input(df)
