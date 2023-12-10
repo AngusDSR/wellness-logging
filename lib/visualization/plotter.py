@@ -8,6 +8,7 @@ plt.style.use('dark_background')
 def line_column_chart(correlated_data, outcome_count, chart_type):
     outcomes = correlated_data.iloc[:, :outcome_count].copy()
     variables = correlated_data.iloc[:, outcome_count:].copy()
+    variables
 
     if chart_type == 0:
         column_data = outcomes
@@ -23,7 +24,7 @@ def line_column_chart(correlated_data, outcome_count, chart_type):
         kind='line',
         linestyle='-', linewidth=len(outcomes.index) / 5,
         marker='o', markersize=4,
-        figsize=(10, 6),
+        figsize=(18, 10),
         zorder=2
     )
     cmap = cm.get_cmap('Blues')
@@ -47,6 +48,8 @@ def line_column_chart(correlated_data, outcome_count, chart_type):
     ax2.set_xlim(column_data.index.min() - half_day_offset, column_data.index[-1] + half_day_offset)
 
     # set labels and legends
+    # To do: legends only needed if multiple outcomes
+    # To do: Make full screen
     ax1.legend(loc='upper left')
     ax2.legend(loc='upper right')
     ax1.set_title(f'Nutritional intakes vs {", ".join(outcomes)} over time')

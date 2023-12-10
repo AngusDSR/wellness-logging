@@ -23,24 +23,23 @@ def nutrition_analysis():
     elif correlation_method == 0:
         threshold = def_corr_threshold
         # could this not be repeated?
-        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, threshold)
+        filtered_correlations_table = correlate.process_correlations(outcomes_data, intakes_data, threshold)
     elif correlation_method == 1:
         threshold = ask.for_number_in_range(0.2, 1, "threshold")
         print("Threshold set to:", threshold, ".")
-        filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, threshold)
-
+        filtered_correlations_table = correlate.process_correlations(outcomes_data, intakes_data, threshold)
     chart_type = ask.for_single_input(['columns', 'lines'], 'Put outcomes as columns or as lines?:')
     plotter.line_column_chart(filtered_correlations_table, len(selected_outcomes), chart_type)
-    plotter.visualise()
-    ask.stop()
 
 def test():
     data_process.prepare_nutrition_data()
     outcomes_data = bear.filter_outcomes(['Energy', 'Mood'])
     intakes = data_process.average_over_days(data.sets['nutrition'], 2)
     intakes_data = data_process.normalise_values(intakes)
-    deff_crr = correlate.process_correlations(outcomes_data, intakes_data, threshold=0.5)
-
+    deff_crr = correlate.process_correlations(outcomes_data, intakes_data, threshold=0.4)
+    input(outcomes_data)
+    input(intakes_data)
+    input(deff_crr)
     chart_type = ask.for_single_input(['columns', 'lines'], 'Plot outcomes as columns or as lines?:')
     plotter.line_column_chart(deff_crr, 2, chart_type)
     plotter.visualise()
