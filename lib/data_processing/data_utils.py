@@ -1,9 +1,8 @@
-import pandas as pd
 from datetime import datetime
 import glob, re
 
-start_date = '2023-06-01'
-end_date = datetime.today().strftime('%Y-%m-%d')
+# start_date = '2023-06-01'
+# end_date = datetime.today().strftime('%Y-%m-%d')
 correlation_threshold = 0.4
 sets = {}
 
@@ -11,10 +10,10 @@ source = {
     'bearable': glob.glob('data/bearable-export-*.csv')[0],
     'nutrition': 'data/dailysummary.csv',
     'weather': None,
+    'codetime': glob.glob('data/records-*.csv')[0],
     # 'trello': None,
     # 'spotify': None,
     # 'fitbit': None,
-    # 'codetime': None,
     # etc.
 }
 
@@ -55,6 +54,13 @@ key_nutrition_intakes = [
     'Phenylalanine',
 ]
 
+time_periods = {
+    'early': '06:00',
+    'morning': '12:00',
+    'afternoon': '18:00',
+    'evening': '23:59',
+}
+
 # To do: remove
 # date_table = pd.date_range(start=start_date, end=end_date, freq='D')
 # date_table = pd.DataFrame(date_table, columns=['date'])
@@ -62,3 +68,8 @@ key_nutrition_intakes = [
 
 def remove_paranthesised_column_text(columns):
     return [re.sub(r'\(.*\)', '', col).strip() for col in columns.copy()]
+
+def get_time_period(time):
+    for period, hours in time_periods.items():
+        if time <= hours:
+            return period

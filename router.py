@@ -2,9 +2,10 @@ import lib.utils.input_handler as ask
 import lib.controllers.main_controller as controller
 
 def run():
-    while True:
-        main_menu()
-        break
+    controller.test()
+    # while True:
+    #     main_menu()
+    #     break
 
 def nut_analysis_menu():
     selection = ask.for_single_input(['Intakes vs outcomes', 'Return\n', 'Exit'])

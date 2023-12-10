@@ -51,3 +51,27 @@ def prepare_nutrition_data(drop_incomplete_days=True):
     df = df.set_index('date')
     df.columns = data.remove_paranthesised_column_text(df.columns)
     data.sets['nutrition'] = df
+
+# To do: refactor
+def prepare_coding_data(group_by_column='date'):
+    df = import_from_csv('codetime')
+    df = df.dropna()
+    df = df.drop(columns=['editor', 'platform', 'relative_file'])
+    df.rename(columns={'event_time': 'date'}, inplace=True)
+    df['date'] = pd.to_datetime(df['date'], unit='ms')
+    df['project'] = df['project'].str.replace(' [WSL: Ubuntu]', '')
+    df['Le Wagon'] = df['project'].str.contains('^[0-9]', regex=True)
+    df['period'] = df['date'].dt.strftime('%H:%M')
+    df['period'] = df['period'].apply(data.get_time_period)
+    df['time_spent'] = df['date'] - df['date'].shift(1)
+    df['time_spent'] = df['time_spent'].dt.total_seconds()
+    df['time_spent'] = df['time_spent'].fillna(0)
+    df['date'] = df['date'].dt.date
+    df.set_index('date', inplace=True)
+    drop_columns = df.columns.tolist()
+    drop_columns.remove('time_spent')
+    if group_by_column != 'date':
+        drop_columns.remove(group_by_column)
+    df = df.drop(columns=drop_columns)
+    df = df.groupby(['date', group_by_column]).sum().reset_index()
+    data.sets['coding'] = df
