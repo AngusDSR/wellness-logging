@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import lib.utils.input_handler as ask
 plt.switch_backend('TkAgg')
+plt.style.use('dark_background')
 
 def line_column_chart(correlated_data, outcome_count, chart_type):
     outcomes = correlated_data.iloc[:, :outcome_count].copy()
@@ -33,16 +34,17 @@ def line_column_chart(correlated_data, outcome_count, chart_type):
 
     ax2 = ax1.twinx()
 
+
     # Plot bars for each outcome column with offset if multiple outcomes
     bar_width = 0.3 / len(column_data.columns)
     for i, col in enumerate(column_data):
         current_offset = (i - (outcome_count - 1) / 2) * bar_width  # Distribute bars evenly
-        ax2.bar(outcomes.index + pd.DateOffset(days=current_offset), outcomes[col], alpha=0.5, label=col, width=bar_width, zorder=1)
+        ax2.bar(column_data.index + pd.DateOffset(days=current_offset), column_data[col], alpha=0.5, label=col, width=bar_width, zorder=1)
 
     # Set a half-day offset for the x-axis limits
     half_day_offset = pd.DateOffset(hours=12)
-    ax1.set_xlim(outcomes.index.min() - half_day_offset, outcomes.index[-1] + half_day_offset)
-    ax2.set_xlim(outcomes.index.min() - half_day_offset, outcomes.index[-1] + half_day_offset)
+    ax1.set_xlim(column_data.index.min() - half_day_offset, column_data.index[-1] + half_day_offset)
+    ax2.set_xlim(column_data.index.min() - half_day_offset, column_data.index[-1] + half_day_offset)
 
     # set labels and legends
     ax1.legend(loc='upper left')
