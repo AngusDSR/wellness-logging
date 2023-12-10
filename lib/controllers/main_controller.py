@@ -10,7 +10,7 @@ def nutrition_analysis():
     data_process.prepare_nutrition_data()
     selected_outcomes = ask.for_multiple_inputs(data.wellbeing_outcomes, 3, 'wellbeing outcome')
     outcomes_data = bear.filter_outcomes(selected_outcomes)
-    # To do: Make a 'choose between' function for this
+    # To do: Make a 'choose between' input function for this
     selected_intakes = ask.about_variable_factors(data.sets['nutrition'], data.key_nutrition_intakes, 'nutritional intakes')
     average_over_days = ask.about_averaging()
     selected_intakes = data_process.average_over_days(selected_intakes, average_over_days)
@@ -30,5 +30,17 @@ def nutrition_analysis():
         filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, correlation_threshold)
 
     plotter.line_column_chart(filtered_correlations_table, len(selected_outcomes))
+    plotter.visualise()
+    ask.stop()
+
+def test():
+    data_process.prepare_nutrition_data()
+    outcomes_data = bear.filter_outcomes(['Energy', 'Mood'])
+    intakes = data_process.average_over_days(data.sets['nutrition'], 2)
+    intakes_data = data_process.normalise_values(intakes)
+    top_3_table = correlate.using_top_n(outcomes_data, intakes_data, 3)
+    deff_crr = correlate.using_threshold(outcomes_data, intakes_data, def_corr_threshold)
+    plotter.line_column_chart(top_3_table, 2)
+    plotter.line_column_chart(deff_crr, 2)
     plotter.visualise()
     ask.stop()

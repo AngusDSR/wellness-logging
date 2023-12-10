@@ -41,14 +41,13 @@ def pivot_table_on_day(df, columns_to_pivot):
     return df
 
 # To do: Should this be here/data utils?
-def prepare_nutrition_data(keep_completed=False):
+def prepare_nutrition_data(drop_incomplete_days=True):
     df = import_from_csv('nutrition')
-    df = df.drop(columns=['Completed'], errors='ignore') if not keep_completed else df
-    df = df.drop(columns=['Carbs (g)'])
-    df = df.rename(columns={'Date': 'date'})
-    df = df.rename(columns={'Energy (kcal)': 'Calories'})
+    if drop_incomplete_days:
+        df = df[df['Completed'] == True]
+    df = df.drop(columns=['Completed', 'Carbs (g)'])
+    df = df.rename(columns={'Date': 'date', 'Energy (kcal)': 'Calories'})
     df['date'] = pd.to_datetime(df['date'])
     df = df.set_index('date')
-    # To do: should this be in data_processing?
     df.columns = data.remove_paranthesised_column_text(df.columns)
     data.sets['nutrition'] = df
