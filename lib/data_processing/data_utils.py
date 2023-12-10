@@ -4,10 +4,7 @@ import glob, re
 
 start_date = '2023-06-01'
 end_date = datetime.today().strftime('%Y-%m-%d')
-
 correlation_threshold = 0.4
-outcome_count = None
-averaged_periods = None # To do: this might need to be multiple valies per dataset
 sets = {}
 
 source = {

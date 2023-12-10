@@ -29,18 +29,23 @@ def nutrition_analysis():
         print("Threshold set to:", threshold, ".")
         filtered_correlations_table = correlate.using_threshold(outcomes_data, intakes_data, threshold)
 
-    plotter.line_column_chart(filtered_correlations_table, len(selected_outcomes))
+    chart_type = ask.for_single_input(['columns', 'lines'], 'Put outcomes as columns or as lines?:')
+    plotter.line_column_chart(filtered_correlations_table, len(selected_outcomes), chart_type)
     plotter.visualise()
     ask.stop()
 
 def test():
     data_process.prepare_nutrition_data()
-    outcomes_data = bear.filter_outcomes(['Energy'])
+    outcomes_data = bear.filter_outcomes(['Energy', 'Mood'])
     intakes = data_process.average_over_days(data.sets['nutrition'], 2)
     intakes_data = data_process.normalise_values(intakes)
     deff_crr = correlate.process_correlations(outcomes_data, intakes_data, threshold=0.5)
     top_3_table = correlate.process_correlations(outcomes_data, intakes_data, 3)
-    plotter.line_column_chart(deff_crr, 1)
-    plotter.line_column_chart(top_3_table, 1)
+
+    chart_type = ask.for_single_input(['columns', 'lines'], 'Plot outcomes as columns or as lines?:')
+    plotter.line_column_chart(deff_crr, 2, chart_type)
+    ######### DEBUG #########
+    # WORKING ON COLOURS
+    # plotter.line_column_chart(top_3_table, 1)
     plotter.visualise()
     ask.stop()

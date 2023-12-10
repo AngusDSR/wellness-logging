@@ -1,46 +1,41 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from lib.data_processing.data_utils import sets, outcome_count
+import matplotlib.cm as cm
 import lib.utils.input_handler as ask
 plt.switch_backend('TkAgg')
 
-def line_column_chart(correlated_data, outcome_count):
+def line_column_chart(correlated_data, outcome_count, chart_type):
     outcomes = correlated_data.iloc[:, :outcome_count].copy()
     variables = correlated_data.iloc[:, outcome_count:].copy()
 
-    chart_type = ask.for_single_input(['columns', 'lines'], 'Put outcomes as columns or as lines?:')
     if chart_type == 0:
-        viz_columns = outcomes
-        viz_lines = variables
+        column_data = outcomes
+        line_data = variables
     else:
-        viz_columns = variables
-        viz_lines = outcomes
+        column_data = variables
+        line_data = outcomes
 
     print('Plotting: %s' % ', '.join(map(str, outcomes.columns)),'...')
 
-    ax1 = viz_lines.plot(
+    # Plot and colour lines
+    ax1 = line_data.plot(
         kind='line',
-        linestyle='-', linewidth=2,
+        linestyle='-', linewidth=len(outcomes.index) / 5,
         marker='o', markersize=4,
         figsize=(10, 6),
         zorder=2
     )
-
-    # Add color mapping to lines
-    for line in ax1.get_lines():
-        if line.get_label().endswith('(neg)'):
-            line.set_linestyle('--')
-            line.set_color('blue')
+    cmap = cm.get_cmap('Blues')
+    lines = [line for line in ax1.get_lines() if line.get_label().endswith('(neg)')]
+    for count, line in enumerate(lines):
+        line.set_linestyle('--')
+        line.set_color(cmap(count + 0.3))
 
     ax2 = ax1.twinx()
 
     # Plot bars for each outcome column with offset if multiple outcomes
-    bar_width = 0.3 / outcome_count
-    offset = bar_width / 2
-
-    # DEBUG
-    # for i, col in enumerate(outcomes.columns):
-    for i, col in enumerate(viz_columns):
+    bar_width = 0.3 / len(column_data.columns)
+    for i, col in enumerate(column_data):
         current_offset = (i - (outcome_count - 1) / 2) * bar_width  # Distribute bars evenly
         ax2.bar(outcomes.index + pd.DateOffset(days=current_offset), outcomes[col], alpha=0.5, label=col, width=bar_width, zorder=1)
 
