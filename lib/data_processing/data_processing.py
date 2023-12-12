@@ -78,5 +78,7 @@ def prepare_coding_data(group_by_column='date'):
 
 def prepare_weather_data():
     df = import_from_csv('weather')
-    df = df.dropna()
-    input(df)
+    df = df.fillna(0)
+    df['date'] = pd.to_datetime(df['date'])
+    df = df.set_index('date')
+    data.sets['weather'] = df
