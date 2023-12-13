@@ -16,8 +16,7 @@ def invalid_input(message="Invalid input. Try again."):
     lines =  '~' * ( len(message) + 3)
     return f"{lines}\n⚠️ {message}\n{lines}\n"
 
-# TO DO:
-# Add option to return to previous menu
+# TO DO: Add option to return to previous menu
 def for_menu_selection(prompt='\nEnter the corresponding number: ', preceeding_message=''):
     return input(f"\n{preceeding_message}{prompt}") if len(preceeding_message) > 0 else input(prompt)
 
@@ -143,27 +142,3 @@ def about_averaging():
         else:
             invalid_input()
             continue
-
-# To do: replace and remove
-def about_correlation():
-    while True:
-        user_input = input("Select an option:\n\n1. Use the default correlation threshold (0.4)\n2. Choose a custom correlation threshold\n3. Select the top x correlated inputs\n4. Exit\n\nEnter the corresponding number: ")
-        clear()
-
-        if user_input == "4":
-            stop()
-
-        if user_input == "1":
-            return [0, data.correlation_threshold]
-        elif user_input == "2":
-            correlation_threshold = get_numeric_input("Enter a threshold between 0.2 and 1: ", 0.2, 1)
-            clear()
-            print("Threshold set to:", correlation_threshold)
-            return [0, correlation_threshold]
-        elif user_input == "3":
-            top_n = get_numeric_input("Enter a top n between 1 and 10: ", 1, 10)
-            clear()
-            print("Filtering to top ", top_n)
-            return [2, int(top_n)]
-        else:
-            invalid_input()

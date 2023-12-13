@@ -49,7 +49,6 @@ def line_column_chart(correlated_data, outcome_count, chart_type):
 
     # set labels and legends
     # To do: legends only needed if multiple outcomes
-    # To do: Make full screen
     ax1.legend(loc='upper left')
     ax2.legend(loc='upper right')
     ax1.set_title(f'Nutritional intakes vs {", ".join(outcomes)} over time')

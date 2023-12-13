@@ -69,6 +69,13 @@ time_periods = {
 def remove_paranthesised_column_text(columns):
     return [re.sub(r'\(.*\)', '', col).strip() for col in columns.copy()]
 
+def convert_time_string_to_hours(timestring):
+    print(timestring)
+    print(type(timestring))
+    # To do: add error handling for split - should only take 'hh:mm' format
+    # time_split = timestring.split(':')
+    # return int(time_split[0]) + (int(time_split[1]) / 60)
+
 def get_time_period(time):
     for period, hours in time_periods.items():
         if time <= hours:

@@ -33,4 +33,6 @@ def nutrition_analysis():
     plotter.visualise()
 
 def test():
-    data_process.prepare_weather_data()
+    ask.clear()
+    # bear.simple_import()
+    bear.better_import()
