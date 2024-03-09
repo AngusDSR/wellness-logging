@@ -83,7 +83,7 @@ def convert_time_string_to_hours(timestring):
 def get_time_period(time):
     # options:
     # - NaN -> check for floats -> return as all day
-    # - a string 'am' 'pm'
+    # - a string 'am' 'pm' -> if in ... -> map to new ones
     # - a string in hh:mm 8:49 -> apply the logic below
 
     input(type(time))
