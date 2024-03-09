@@ -59,12 +59,16 @@ time_periods = {
     'morning': '12:00',
     'afternoon': '18:00',
     'evening': '23:59',
+    # 'All day':
 }
 
 # To do: remove
 # date_table = pd.date_range(start=start_date, end=end_date, freq='D')
 # date_table = pd.DataFrame(date_table, columns=['date'])
 # date_table['day'] = date_table['date'].dt.strftime('%a')
+
+def strip_emoji(string):
+    return string.str.replace(r'[<(>:].*', '', regex=True)
 
 def remove_paranthesised_column_text(columns):
     return [re.sub(r'\(.*\)', '', col).strip() for col in columns.copy()]
@@ -77,6 +81,23 @@ def convert_time_string_to_hours(timestring):
     # return int(time_split[0]) + (int(time_split[1]) / 60)
 
 def get_time_period(time):
-    for period, hours in time_periods.items():
-        if time <= hours:
-            return period
+    # options:
+    # - NaN -> check for floats -> return as all day
+    # - a string 'am' 'pm'
+    # - a string in hh:mm 8:49 -> apply the logic below
+
+    input(type(time))
+    input(time)
+    return
+
+    if time.isna:
+        input('na')
+        return
+    elif type(time) == Str:
+        input(time)
+        return
+    else:
+        for period, hours in time_periods.items():
+            if time <= hours:
+                input(period)
+                return period
